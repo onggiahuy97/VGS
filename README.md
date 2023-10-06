@@ -7,7 +7,8 @@ Welcome to the **VGS** (Viet Golden State Soccer) app, your ultimate companion f
 ## Features
 
 ### Player Management
-![Image Alt Text](assets/players.png)
+<img src="assets/players.png" alt="Image Alt Text" width="100" height="100">
+
 
 
 - Easily keep track of all your soccer players, including their names, positions, and other relevant details.
