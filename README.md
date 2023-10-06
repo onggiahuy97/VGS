@@ -7,6 +7,8 @@ Welcome to the **VGS** (Viet Golden State Soccer) app, your ultimate companion f
 ## Features
 
 ### Player Management
+![Image Alt Text](assets/players.png)
+
 
 - Easily keep track of all your soccer players, including their names, positions, and other relevant details.
 - Organize player information efficiently, ensuring you have the latest updates on your squad.
