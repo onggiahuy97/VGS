@@ -7,24 +7,25 @@ Welcome to the **VGS** (Viet Golden State Soccer) app, your ultimate companion f
 ## Features
 
 ### Player Management
-<img src="assets/players.png" alt="Image Alt Text" width="100" height="100">
-
-
+<img src="assets/players.png" alt="Image Alt Text" width="200" height="400">
 
 - Easily keep track of all your soccer players, including their names, positions, and other relevant details.
 - Organize player information efficiently, ensuring you have the latest updates on your squad.
 
 ### Team Distribution
+<img src="assets/teams.png" alt="Image Alt Text" width="200" height="400">
 
 - Create teams with flexibility, distributing players equally among teams of 2, 3, or 4 players.
 - Optimize team composition based on player positions and skill levels to enhance the gaming experience.
 
 ### Whiteboard for Lineup Players
+<img src="assets/lineup.png" alt="Image Alt Text" width="200" height="400">
 
 - Plan your game strategy with a built-in whiteboard feature.
 - Arrange players on the field by dragging and dropping them into your desired positions, visualizing your team's formation.
 
 ### Head-to-Head View
+<img src="assets/h2h.png" alt="Image Alt Text" width="200" height="400">
 
 - Track head-to-head matches with ease.
 - Record scores, game details, and player performance to analyze game statistics and improve your team's performance.
