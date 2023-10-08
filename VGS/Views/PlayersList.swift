@@ -60,24 +60,6 @@ struct PlayersList: View {
                 }
             }
             .navigationTitle("Players")
-            .toolbar {
-                ToolbarItem {
-                    Button("Random") {
-                        viewModel.splitTeam()
-                        viewModel.tabSelection = TeamsList.tag
-                    }
-                }
-                
-                ToolbarItem(placement: .topBarLeading) {
-                    Picker("", selection: $viewModel.numberOfTeam) {
-                        ForEach(2...4, id: \.self) { number in
-                            Text("\(number) Teams")
-                                .tag(number)
-                            
-                        }
-                    }
-                }
-            }
         }
     }
 }

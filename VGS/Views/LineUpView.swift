@@ -12,6 +12,7 @@ struct LineUpView: View {
     @State private var showBall = false
     @State private var showTeam1 = true
     @State private var showTeam2 = true
+    @State private var showH2H = false
     
     var body: some View {
         NavigationStack {
@@ -32,31 +33,52 @@ struct LineUpView: View {
                 viewModel.lineupPlayers()
             }
             .toolbar {
-                Button {
-                    showTeam1.toggle()
-                } label: {
-                    Image(systemName: "circle.fill")
-                        .foregroundStyle(showTeam1 ? .blue : .blue.opacity(0.5))
+                ToolbarItem(placement: .topBarLeading) {
+                    if viewModel.numberOfTeam != 1 {
+                        Button {
+                            showH2H.toggle()
+                        } label: {
+                            Image(systemName: "arrowtriangle.right.and.line.vertical.and.arrowtriangle.left.fill")
+                        }
+                        .sheet(isPresented: $showH2H) {
+                            Head2HeadView()
+                        }
+                    }
                 }
                 
-                Button {
-                    showTeam2.toggle()
-                } label: {
-                    Image(systemName: "circle.fill")
-                        .foregroundStyle(showTeam2 ? .orange : .orange.opacity(0.5))
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button {
+                        showTeam1.toggle()
+                    } label: {
+                        Image(systemName: "circle.fill")
+                            .foregroundStyle(showTeam1 ? .blue : .blue.opacity(0.5))
+                    }
                 }
                 
-                Button {
-                    showBall.toggle()
-                } label: {
-                    Image(systemName: "soccerball.circle")
-                        .foregroundStyle(showBall ? .primary : .secondary)
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button {
+                        showTeam2.toggle()
+                    } label: {
+                        Image(systemName: "circle.fill")
+                            .foregroundStyle(showTeam2 ? .orange : .orange.opacity(0.5))
+                    }
                 }
                 
-                Button {
-                    viewModel.lineupPlayers()
-                } label: {
-                    Image(systemName: "figure.soccer")
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button {
+                        showBall.toggle()
+                    } label: {
+                        Image(systemName: "soccerball.circle")
+                            .foregroundStyle(showBall ? .primary : .secondary)
+                    }
+                }
+                
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button {
+                        viewModel.lineupPlayers()
+                    } label: {
+                        Image(systemName: "figure.soccer")
+                    }
                 }
             }
         }

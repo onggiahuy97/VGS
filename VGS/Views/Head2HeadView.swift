@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct LineUpTeamList: View {
+struct Head2HeadView: View {
     @EnvironmentObject var viewModel: ViewModel
     
     var body: some View {
@@ -22,7 +22,6 @@ struct LineUpTeamList: View {
                                 }
                             }
                         }
-                        
                         
                         Spacer()
                         
@@ -73,31 +72,31 @@ struct LineUpTeamList: View {
                 .padding()
             }
             .navigationTitle("Head to Head")
-            .toolbar {
-                ToolbarItem {
-                    Button("Random") {
-                        viewModel.splitTeam()
-                    }
-                }
-                
-                ToolbarItem(placement: .topBarLeading) {
-                    Picker("", selection: $viewModel.numberOfTeam) {
-                        ForEach(2...4, id: \.self) { number in
-                            Text("\(number) Teams")
-                                .tag(number)
-                            
-                        }
-                    }
-                }
-            }
+//            .toolbar {
+//                ToolbarItem {
+//                    Button("Random") {
+//                        viewModel.splitTeam()
+//                    }
+//                }
+//                
+//                ToolbarItem(placement: .topBarLeading) {
+//                    Picker("", selection: $viewModel.numberOfTeam) {
+//                        ForEach(2...4, id: \.self) { number in
+//                            Text("\(number) Teams")
+//                                .tag(number)
+//                            
+//                        }
+//                    }
+//                }
+//            }
         }
     }
 }
 
-extension LineUpTeamList {
+extension Head2HeadView {
     static let tag: String? = "LineUpTeamList"
 }
 
 #Preview {
-    LineUpTeamList()
+    Head2HeadView()
 }

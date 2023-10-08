@@ -31,7 +31,28 @@ class ViewModel: ObservableObject {
     @Published var screenSize: CGSize = .init()
         
     init() {
-        self.players = Self.samplePlayers
+        decodeData()
+    }
+    
+    func swapPlayers(fromTeam: inout Team, fromPlayer: Player, toTeam: inout Team, toPlayer: Player) {
+        let fromTeamPlayerOffset = fromPlayer.offset
+        let toTeamPlayerOffset = toPlayer.offset
+        
+        guard let fromTeamPlayerIndex = fromTeam.players.firstIndex(where: { $0.id == fromPlayer.id })  else {
+            return
+        }
+        
+        guard let toTeamPlayerIndex = toTeam.players.firstIndex(where: { $0.id == toPlayer.id }) else {
+            return
+        }
+        
+        let tempPlayer = fromTeam.players[fromTeamPlayerIndex]
+        
+        fromTeam.players[fromTeamPlayerIndex] = toTeam.players[toTeamPlayerIndex]
+        fromTeam.players[fromTeamPlayerIndex].offset = fromTeamPlayerOffset
+        
+        toTeam.players[toTeamPlayerIndex] = tempPlayer
+        toTeam.players[toTeamPlayerIndex].offset = toTeamPlayerOffset
     }
     
     func checkIfFirstTime() {
@@ -165,12 +186,12 @@ class ViewModel: ObservableObject {
         let width = screenSize.width
         let height = screenSize.height
         let portionHeight = height / 2 / 3
-        let team1CB = CGRect(x: 0, y: 0, width: width, height: portionHeight)
-        let team1CM = CGRect(x: 0, y: team1CB.height, width: width, height: portionHeight)
-        let team1FW = CGRect(x: 0, y: team1CB.height * 2, width: width, height: portionHeight - 30)
-        let team2FW = CGRect(x: 0, y: team1CB.height * 2, width: width, height: portionHeight + 120)
-        let team2CM = CGRect(x: 0, y: team1CB.height * 3, width: width, height: portionHeight + 100)
-        let team2CB = CGRect(x: 0, y: team1CB.height * 4, width: width, height: portionHeight + 100)
+        let team2CB = CGRect(x: 0, y: 0, width: width, height: portionHeight)
+        let team2CM = CGRect(x: 0, y: team2CB.height, width: width, height: portionHeight)
+        let team2FW = CGRect(x: 0, y: team2CB.height * 2, width: width, height: portionHeight - 30)
+        let team1FW = CGRect(x: 0, y: team2CB.height * 2, width: width, height: portionHeight + 120)
+        let team1CM = CGRect(x: 0, y: team2CB.height * 3, width: width, height: portionHeight + 100)
+        let team1CB = CGRect(x: 0, y: team2CB.height * 4, width: width, height: portionHeight + 100)
         
         let team1Layouts: [TeamPostionLayout] = [
             TeamPostionLayout(rect: team1CB, position: .CB),

@@ -30,12 +30,6 @@ struct ContentView: View {
                 .tabItem {
                     Label("Lineup", systemImage: "clipboard")
                 }
-            
-            LineUpTeamList()
-                .tag(LineUpTeamList.tag)
-                .tabItem {
-                    Label("H2H", systemImage: "arrowtriangle.right.and.line.vertical.and.arrowtriangle.left")
-                }
         }
     }
 }
@@ -43,4 +37,4 @@ struct ContentView: View {
 #Preview {
     ContentView()
 }
- 
+

@@ -25,6 +25,7 @@ struct TeamsList: View {
                             }
                             return index1 < index2
                         }
+                        
                         ForEach(sortedPlayer) { player in
                             Menu {
                                 ForEach(viewModel.teams) { t in
@@ -46,11 +47,25 @@ struct TeamsList: View {
                     }
                 }
             }
+            .overlay(
+                VStack(alignment: .center) {
+                    Text("There is no team yet!")
+                    Button("Random Team") {
+                        viewModel.splitTeam()
+                    }
+                    .buttonStyle(.bordered)
+                }
+                    .opacity(viewModel.teams.isEmpty ? 1 : 0)
+            )
             .navigationTitle("Teams")
             .toolbar {
                 ToolbarItem {
-                    Button("Random") {
-                        viewModel.splitTeam()
+                    Menu("Option", systemImage: "person.line.dotted.person.fill") {
+                        Button {
+                            viewModel.splitTeam()
+                        } label: {
+                            Label("Random Players", systemImage: "person.2")
+                        }
                     }
                 }
                 

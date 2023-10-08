@@ -12,9 +12,9 @@ struct Player: Identifiable, Codable {
     var id = UUID()
     var name: String
     var position: Position
+    
     var offset: CGPoint = .zero
     var isDragging: Bool = false
-    
     var iniName: String {
         let components = name.components(separatedBy: .whitespacesAndNewlines)
         let fName = String(components.first?.first ?? Character("")).uppercased()
