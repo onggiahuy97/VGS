@@ -31,7 +31,7 @@ class ViewModel: ObservableObject {
     @Published var screenSize: CGSize = .init()
         
     init() {
-        decodeData()
+        checkIfFirstTime()
     }
     
     func swapPlayers(fromTeam: inout Team, fromPlayer: Player, toTeam: inout Team, toPlayer: Player) {
@@ -186,12 +186,13 @@ class ViewModel: ObservableObject {
         let width = screenSize.width
         let height = screenSize.height
         let portionHeight = height / 2 / 3
-        let team2CB = CGRect(x: 0, y: 0, width: width, height: portionHeight)
+        let padding: CGFloat = 20
+        let team2CB = CGRect(x: 0, y: 0 + padding, width: width, height: portionHeight)
         let team2CM = CGRect(x: 0, y: team2CB.height, width: width, height: portionHeight)
         let team2FW = CGRect(x: 0, y: team2CB.height * 2, width: width, height: portionHeight - 30)
-        let team1FW = CGRect(x: 0, y: team2CB.height * 2, width: width, height: portionHeight + 120)
+        let team1FW = CGRect(x: 0, y: team2CB.height * 2 + padding, width: width, height: portionHeight + 120)
         let team1CM = CGRect(x: 0, y: team2CB.height * 3, width: width, height: portionHeight + 100)
-        let team1CB = CGRect(x: 0, y: team2CB.height * 4, width: width, height: portionHeight + 100)
+        let team1CB = CGRect(x: 0, y: team2CB.height * 4 - padding, width: width, height: portionHeight + 100)
         
         let team1Layouts: [TeamPostionLayout] = [
             TeamPostionLayout(rect: team1CB, position: .CB),

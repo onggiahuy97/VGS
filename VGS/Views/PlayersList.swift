@@ -70,4 +70,5 @@ extension PlayersList {
 
 #Preview {
     PlayersList()
+        .environmentObject(ViewModel())
 }

@@ -10,6 +10,8 @@ import SwiftUI
 struct Head2HeadView: View {
     @EnvironmentObject var viewModel: ViewModel
     
+    @Binding var showH2H: Bool
+    
     var body: some View {
         NavigationStack {
             ScrollView {
@@ -19,6 +21,7 @@ struct Head2HeadView: View {
                             ForEach(viewModel.teams) { team in
                                 Button(team.name) {
                                     viewModel.team1 = team
+                                    viewModel.lineupPlayers()
                                 }
                             }
                         }
@@ -33,6 +36,7 @@ struct Head2HeadView: View {
                             ForEach(viewModel.teams) { team in
                                 Button(team.name) {
                                     viewModel.team2 = team
+                                    viewModel.lineupPlayers()
                                 }
                             }
                         }
@@ -72,31 +76,15 @@ struct Head2HeadView: View {
                 .padding()
             }
             .navigationTitle("Head to Head")
-//            .toolbar {
-//                ToolbarItem {
-//                    Button("Random") {
-//                        viewModel.splitTeam()
-//                    }
-//                }
-//                
-//                ToolbarItem(placement: .topBarLeading) {
-//                    Picker("", selection: $viewModel.numberOfTeam) {
-//                        ForEach(2...4, id: \.self) { number in
-//                            Text("\(number) Teams")
-//                                .tag(number)
-//                            
-//                        }
-//                    }
-//                }
-//            }
+            .toolbar {
+                Button("Done") {
+                    showH2H = false
+                }
+            }
         }
     }
 }
 
 extension Head2HeadView {
     static let tag: String? = "LineUpTeamList"
-}
-
-#Preview {
-    Head2HeadView()
 }

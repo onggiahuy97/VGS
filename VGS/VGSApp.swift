@@ -24,7 +24,7 @@ struct VGSApp: App {
             }
             
         }
-        .onChange(of: scenePhase) { _, newValue in
+        .onChange(of: scenePhase) { newValue in
             if newValue == .background || newValue == .inactive {
                 print("Data is being saved")
                 viewModel.saveData()

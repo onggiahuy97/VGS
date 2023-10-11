@@ -89,4 +89,5 @@ extension TeamsList {
 
 #Preview {
     TeamsList()
+        .environmentObject(ViewModel())
 }

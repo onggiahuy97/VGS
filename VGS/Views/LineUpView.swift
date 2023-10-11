@@ -10,8 +10,8 @@ import SwiftUI
 struct LineUpView: View {
     @EnvironmentObject var viewModel: ViewModel
     @State private var showBall = false
-    @State private var showTeam1 = true
-    @State private var showTeam2 = true
+    @State private var showBlue = true
+    @State private var showOrange = true
     @State private var showH2H = false
     
     var body: some View {
@@ -19,14 +19,45 @@ struct LineUpView: View {
             ZStack {
                 SoccerField()
                 
+                VStack(alignment: .leading) {
+                    
+                    Menu(viewModel.team2.name) {
+                        ForEach(viewModel.teams) { team in
+                            Button(team.name) {
+                                viewModel.team2 = team
+                                viewModel.lineupPlayers()
+                            }
+                        }
+                    }
+                    .buttonStyle(.bordered)
+                    .padding(.vertical, 5)
+                    .opacity(showOrange ? 1 : 0)
+                    
+                    
+                    Spacer()
+                    
+                    Menu(viewModel.team1.name) {
+                        ForEach(viewModel.teams) { team in
+                            Button(team.name) {
+                                viewModel.team1 = team
+                                viewModel.lineupPlayers()
+                            }
+                        }
+                    }
+                    .buttonStyle(.bordered)
+                    .padding(.vertical, 5)
+                    .opacity(showBlue ? 1 : 0)
+                }
+                
                 TeamLineUpView(team: $viewModel.team1, color: .blue)
-                    .opacity(showTeam1 ? 1 : 0)
+                    .opacity(showBlue ? 1 : 0)
                 
                 TeamLineUpView(team: $viewModel.team2, color: .orange)
-                    .opacity(showTeam2 ? 1 : 0)
+                    .opacity(showOrange ? 1 : 0)
                 
                 BallView()
                     .opacity(showBall ? 1 : 0)
+                
             }
             .navigationBarTitleDisplayMode(.inline)
             .onAppear {
@@ -41,26 +72,26 @@ struct LineUpView: View {
                             Image(systemName: "arrowtriangle.right.and.line.vertical.and.arrowtriangle.left.fill")
                         }
                         .sheet(isPresented: $showH2H) {
-                            Head2HeadView()
+                            Head2HeadView(showH2H: $showH2H)
                         }
                     }
                 }
                 
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {
-                        showTeam1.toggle()
+                        showBlue.toggle()
                     } label: {
                         Image(systemName: "circle.fill")
-                            .foregroundStyle(showTeam1 ? .blue : .blue.opacity(0.5))
+                            .foregroundStyle(showBlue ? .blue : .blue.opacity(0.5))
                     }
                 }
                 
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {
-                        showTeam2.toggle()
+                        showOrange.toggle()
                     } label: {
                         Image(systemName: "circle.fill")
-                            .foregroundStyle(showTeam2 ? .orange : .orange.opacity(0.5))
+                            .foregroundStyle(showOrange ? .orange : .orange.opacity(0.5))
                     }
                 }
                 
@@ -122,4 +153,5 @@ extension LineUpView {
 
 #Preview {
     LineUpView()
+        .environmentObject(ViewModel())
 }

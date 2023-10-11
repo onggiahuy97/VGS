@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct SoccerField: View {
+    @EnvironmentObject var viewModel: ViewModel
     
     private let strokeWidth: CGFloat = 3
     
@@ -39,7 +40,6 @@ struct SoccerField: View {
                         .frame(width: size.width / 2, height: size.height / 10)
                 }
             }
-
         }
     }
 }

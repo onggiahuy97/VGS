@@ -18,7 +18,7 @@ struct TeamLineUpView: View {
     
     var body: some View {
         ForEach($team.players) { $player in
-            VStack {
+            VStack(spacing: 3) {
                 Circle()
                     .fill(color)
                     .frame(width: 40, height: 40)
