@@ -10,18 +10,26 @@ import SwiftUI
 struct PlayerView: View {
     @Binding var player: Player
     
+    @State private var showEdit = false
+    
     var body: some View {
         HStack {
+            Image(systemName: "\(player.number).circle.fill")
+                .imageScale(.large)
             Text(player.name)
                 .bold()
+            
             Spacer()
-            Picker("", selection: $player.position) {
-                ForEach(Position.allCases) { position in
-                    Text(position.rawValue)
-                        .tag(position)
-                        .italic()
-                }
-            }
+                .frame(maxWidth: .infinity)
+                
+            Text(player.position.rawValue)
+        }
+        .contentShape(Circle())
+        .onTapGesture {
+            self.showEdit.toggle()
+        }
+        .sheet(isPresented: $showEdit) {
+            EditPlayerView(player: player)
         }
     }
 }

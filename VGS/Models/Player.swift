@@ -12,13 +12,31 @@ struct Player: Identifiable, Codable {
     var id = UUID()
     var name: String
     var position: Position
+    var number: Int = 0
     
     var offset: CGPoint = .zero
     var isDragging: Bool = false
+    
     var iniName: String {
-        let components = name.components(separatedBy: .whitespacesAndNewlines)
-        let fName = String(components.first?.first ?? Character("")).uppercased()
-        let lName = String(components.last?.first ?? Character("")).uppercased()
-        return fName + lName
+        createInitials(from: name)
+    }
+}
+
+func createInitials(from name: String) -> String {
+    let components = name.split { $0.isWhitespace || $0.isNewline }
+    
+    if components.count >= 2 {
+        let firstName = components[0]
+        let lastName = components[components.count - 1]
+        
+        if let firstInitial = firstName.first, let lastInitial = lastName.first {
+            return "\(firstInitial)\(lastInitial)".uppercased()
+        } else {
+            // Handle the case where first or last name is an empty string
+            return name.uppercased()
+        }
+    } else {
+        // Handle the case where there are no whitespace-separated components
+        return name.uppercased()
     }
 }

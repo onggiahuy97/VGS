@@ -60,6 +60,20 @@ struct PlayersList: View {
                 }
             }
             .navigationTitle("Players")
+            .toolbar {
+                Button("JSON") {
+                    do {
+                        let encoder = JSONEncoder()
+                        encoder.outputFormatting = .prettyPrinted
+                        let encodedData = try encoder.encode(viewModel.players)
+                        if let json = String(data: encodedData, encoding: .utf8) {
+                            print(json)
+                        }
+                    } catch {
+                        print(error)
+                    }
+                }
+            }
         }
     }
 }
