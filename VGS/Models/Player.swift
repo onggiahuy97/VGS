@@ -11,6 +11,7 @@ import UIKit
 struct Player: Identifiable, Codable {
     var id = UUID()
     var name: String
+    var rank: Int
     var position: Position
     
     var offset: CGPoint = .zero

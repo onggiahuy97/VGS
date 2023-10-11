@@ -10,6 +10,7 @@ import SwiftUI
 struct PlayersList: View {
     @EnvironmentObject var viewModel: ViewModel
     @State private var name: String = ""
+    @State private var rank: Int = 1
     @State private var position: Position = .CB
     
     var body: some View {
@@ -27,9 +28,18 @@ struct PlayersList: View {
                         }
                         .pickerStyle(.segmented)
                     }
+                    VStack {
+                        Picker("", selection: $rank) {
+                            ForEach(1...5, id:\.self) { number in
+                                Text("\(number)").tag(number)
+                            }
+                        }
+                        .pickerStyle(MenuPickerStyle())
+                        
+                    }
                     Button {
                         if !name.isEmpty {
-                            let newPlayer = Player(name: name, position: position)
+                            let newPlayer = Player(name: name, rank: rank, position: position)
                             viewModel.players.append(newPlayer)
                             name = ""
                         }

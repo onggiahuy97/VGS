@@ -84,18 +84,46 @@ class ViewModel: ObservableObject {
         teams = (0..<numberOfTeam).map { Team(name: "Team \($0 + 1)", players: []) }
         
         // For each position
+//        for position in Position.allCases {
+//
+//            // Players with the same position
+//            var playersWithPosition = players.filter { $0.position == position }
+//
+//            // Splitting players
+//            var currentTeamIndex = 0
+//            while !playersWithPosition.isEmpty {
+//                let randomIndex = Int.random(in: 0..<playersWithPosition.count)
+//                let randomPlayer = playersWithPosition.remove(at: randomIndex)
+//                teams[currentTeamIndex].players.append(randomPlayer)
+//                currentTeamIndex = currentTeamIndex == numberOfTeam - 1 ? 0 : currentTeamIndex + 1
+//            }
+//        }
+        
         for position in Position.allCases {
-            
-            // Players with the same position
-            var playersWithPosition = players.filter { $0.position == position }
-            
-            // Splitting players
-            var currentTeamIndex = 0
-            while !playersWithPosition.isEmpty {
-                let randomIndex = Int.random(in: 0..<playersWithPosition.count)
-                let randomPlayer = playersWithPosition.remove(at: randomIndex)
-                teams[currentTeamIndex].players.append(randomPlayer)
-                currentTeamIndex = currentTeamIndex == numberOfTeam - 1 ? 0 : currentTeamIndex + 1
+            // Filter players based on their position.
+            var playersOfPosition = players.filter { $0.position == position }
+            playersOfPosition.sort(by: { $0.rank > $1.rank })
+
+            // Distribute the highest rank players to teams.
+            while !playersOfPosition.isEmpty {
+                for i in 0..<numberOfTeam {
+                    if !playersOfPosition.isEmpty {
+                        var team = teams[i]
+                        team.players.append(playersOfPosition.removeFirst())
+                        teams[i] = team
+                    }
+                }
+                
+                // If players still remain, distribute them based on team rank sum.
+                // This ensures that teams are balanced in terms of player ranks.
+                while !playersOfPosition.isEmpty {
+                    //ChatGPT :)))
+                    if let minRankSumIndex = teams.enumerated().min(by: { $0.element.rankSum < $1.element.rankSum })?.offset {
+                        var team = teams[minRankSumIndex]
+                        team.players.append(playersOfPosition.removeFirst())
+                        teams[minRankSumIndex] = team
+                    }
+                }
             }
         }
         
@@ -221,20 +249,20 @@ extension CGPoint {
 }
 extension ViewModel {
     static let samplePlayers: [Player] = [
-        Player(name: "Huy Ong",         position: .CM),
-        Player(name: "Ha Tran",         position: .CM),
-        Player(name: "Quan Nho",        position: .CM),
-        Player(name: "Tri Le",          position: .CB),
-        Player(name: "Cuong Le",        position: .CB),
-        Player(name: "Khang Nguyen",    position: .CB),
-        Player(name: "Hieu Nguyen",     position: .CB),
-        Player(name: "Ba Huy",          position: .CB),
-        Player(name: "Lam Le",          position: .CB),
-        Player(name: "Phap Le",         position: .FW),
-        Player(name: "Luan Le",         position: .FW),
-        Player(name: "Duong Cao",       position: .FW),
-        Player(name: "Luc Le",          position: .FW),
-        Player(name: "Hung Tran",       position: .FW),
-        Player(name: "Nhan Ton",        position: .FW),
+        Player(name: "Huy Ong",   rank: 4,      position: .CM),
+        Player(name: "Ha Tran",     rank: 4,    position: .CM),
+        Player(name: "Quan Nho",    rank: 5,    position: .CM),
+        Player(name: "Tri Le",      rank: 5,    position: .CB),
+        Player(name: "Cuong Le",    rank: 5,    position: .CB),
+        Player(name: "Khang Nguyen", rank: 4,   position: .CB),
+        Player(name: "Hieu Nguyen",  rank: 3,   position: .CB),
+        Player(name: "Ba Huy",       rank: 2,   position: .CB),
+        Player(name: "Lam Le",       rank: 2,   position: .CB),
+        Player(name: "Phap Le",      rank: 4,   position: .FW),
+        Player(name: "Luan Le",      rank: 3,   position: .CM),
+        Player(name: "Duong Cao",   rank: 4,     position: .FW),
+        Player(name: "Luc Le",       rank: 5,    position: .FW),
+        Player(name: "Hung Tran",    rank: 4,    position: .FW),
+        Player(name: "Nhan Ton",     rank: 3,    position: .FW),
     ]
 }

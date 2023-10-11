@@ -22,6 +22,12 @@ struct PlayerView: View {
                         .italic()
                 }
             }
+            Spacer()
+            Picker("", selection: $player.rank) {
+                ForEach(1...5, id:\.self) { number in
+                    Text("\(number)").tag(number)
+                }
+            }
         }
     }
 }
@@ -36,6 +42,8 @@ struct StaticPlayerView: View {
             Spacer()
             Text(player.position.rawValue)
                 .italic()
+            Spacer()
+            Text("\(player.rank)")
         }
         .buttonStyle(.plain)
     }
