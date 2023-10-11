@@ -39,12 +39,22 @@ struct EditPlayerView: View {
                 
                 Section {
                     Picker(selection: $player.number) {
-                        ForEach(0...100, id: \.self) { number in
+                        ForEach(0...50, id: \.self) { number in
                             Text("\(number)")
                                 .tag(number)
                         }
                     } label: {
                         Text("Number")
+                    }
+                    .pickerStyle(.menu)
+                }
+                
+                Section {
+                    Picker("Rank", selection: $player.rank) {
+                        ForEach(1...3, id: \.self) { star in
+                            Text("\(star)")
+                                .tag(star)
+                        }
                     }
                     .pickerStyle(.menu)
                 }
@@ -59,7 +69,8 @@ struct EditPlayerView: View {
                         Text("Position")
                     }
                     .pickerStyle(.segmented)
-                }
+                }     
+                
             }
             .navigationTitle("Edit Player")
             .toolbar {

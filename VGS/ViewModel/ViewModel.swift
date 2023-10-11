@@ -31,7 +31,8 @@ class ViewModel: ObservableObject {
     @Published var screenSize: CGSize = .init()
         
     init() {
-        checkIfFirstTime()
+//        checkIfFirstTime()
+        self.players = Self.samplePlayers
     }
     
     func swapPlayers(fromTeam: inout Team, fromPlayer: Player, toTeam: inout Team, toPlayer: Player) {
@@ -82,20 +83,46 @@ class ViewModel: ObservableObject {
     func splitTeam() {
         
         teams = (0..<numberOfTeam).map { Team(name: "Team \($0 + 1)", players: []) }
+//        
+//        // For each position
+//        for position in Position.allCases {
+//            
+//            // Players with the same position
+//            var playersWithPosition = players.filter { $0.position == position }
+//            
+//            // Splitting players
+//            var currentTeamIndex = 0
+//            while !playersWithPosition.isEmpty {
+//                let randomIndex = Int.random(in: 0..<playersWithPosition.count)
+//                let randomPlayer = playersWithPosition.remove(at: randomIndex)
+//                teams[currentTeamIndex].players.append(randomPlayer)
+//                currentTeamIndex = currentTeamIndex == numberOfTeam - 1 ? 0 : currentTeamIndex + 1
+//            }
+//        }
+//        
+//        team1 = teams[0]
+//        team2 = teams[1]
         
-        // For each position
         for position in Position.allCases {
+            var playersOfPosition = players.filter { $0.position == position }
+            playersOfPosition.sort(by: { $0.rank > $1.rank })
             
-            // Players with the same position
-            var playersWithPosition = players.filter { $0.position == position }
-            
-            // Splitting players
-            var currentTeamIndex = 0
-            while !playersWithPosition.isEmpty {
-                let randomIndex = Int.random(in: 0..<playersWithPosition.count)
-                let randomPlayer = playersWithPosition.remove(at: randomIndex)
-                teams[currentTeamIndex].players.append(randomPlayer)
-                currentTeamIndex = currentTeamIndex == numberOfTeam - 1 ? 0 : currentTeamIndex + 1
+            while !playersOfPosition.isEmpty {
+                for i in 0..<numberOfTeam {
+                    if !playersOfPosition.isEmpty {
+                        var team = teams[i]
+                        team.players.append(playersOfPosition.removeFirst())
+                        teams[i] = team
+                    }
+                }
+                
+                while !playersOfPosition.isEmpty {
+                    if let minRankSumIndex = teams.enumerated().min(by: { $0.element.totalRank < $1.element.totalRank })?.offset {
+                        var team = teams[minRankSumIndex]
+                        team.players.append(playersOfPosition.removeFirst())
+                        teams[minRankSumIndex] = team
+                    }
+                }
             }
         }
         
@@ -221,20 +248,20 @@ extension CGPoint {
 }
 extension ViewModel {
     static let samplePlayers: [Player] = [
-        Player(name: "Huy Ong",         position: .CM),
-        Player(name: "Ha Tran",         position: .CM),
-        Player(name: "Quan Nho",        position: .CM),
-        Player(name: "Tri Le",          position: .CB),
-        Player(name: "Cuong Le",        position: .CB),
-        Player(name: "Khang Nguyen",    position: .CB),
-        Player(name: "Hieu Nguyen",     position: .CB),
-        Player(name: "Ba Huy",          position: .CB),
-        Player(name: "Lam Le",          position: .CB),
-        Player(name: "Phap Le",         position: .FW),
-        Player(name: "Luan Le",         position: .FW),
-        Player(name: "Duong Cao",       position: .FW),
-        Player(name: "Luc Le",          position: .FW),
-        Player(name: "Hung Tran",       position: .FW),
-        Player(name: "Nhan Ton",        position: .FW),
+        Player(name: "Huy Ong",         position: .CM, rank: 2),
+        Player(name: "Ha Tran",         position: .CM, rank: 3),
+        Player(name: "Quan Nho",        position: .CM, rank: 3),
+        Player(name: "Tri Le",          position: .CB, rank: 3),
+        Player(name: "Cuong Le",        position: .CB, rank: 3),
+        Player(name: "Khang Nguyen",    position: .CB, rank: 3),
+        Player(name: "Hieu Nguyen",     position: .CB, rank: 2),
+        Player(name: "Ba Huy",          position: .CB, rank: 1),
+        Player(name: "Lam Le",          position: .CB, rank: 1),
+        Player(name: "Phap Le",         position: .FW, rank: 3),
+        Player(name: "Luan Le",         position: .FW, rank: 2),
+        Player(name: "Duong Cao",       position: .FW, rank: 2),
+        Player(name: "Luc Le",          position: .FW, rank: 3),
+        Player(name: "Hung Tran",       position: .FW, rank: 2),
+        Player(name: "Nhan Ton",        position: .FW, rank: 2),
     ]
 }

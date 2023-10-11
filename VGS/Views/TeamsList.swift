@@ -16,7 +16,7 @@ struct TeamsList: View {
         NavigationStack {
             List {
                 ForEach(viewModel.teams) { team in
-                    Section("\(team.name) - \(team.players.count) players") {
+                    Section("\(team.name) - \(team.players.count) players - \(team.totalRank) ranks") {
                         let positions = Position.allCases.map { $0.rawValue }
                         let sortedPlayer = team.players.sorted { p1, p2 in
                             guard let index1 = positions.firstIndex(of: p1.position.rawValue),

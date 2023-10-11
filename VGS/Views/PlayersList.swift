@@ -41,10 +41,13 @@ struct PlayersList: View {
                 ForEach(Position.allCases) { position in
                     let players = viewModel.players.filter { $0.position == position }
                     Section("\(position.rawValue) (\(players.count))") {
-                        ForEach($viewModel.players.filter { player in
-                            let playerPosition = player.wrappedValue.position
-                            return playerPosition == position
-                        }) { $player in
+                        ForEach($viewModel.players
+                            .filter { player in
+                                let playerPosition = player.wrappedValue.position
+                                return playerPosition == position
+                            }
+                            .sorted { $0.wrappedValue.rank > $1.wrappedValue.rank }
+                        ) { $player in
                             PlayerView(player: $player)
                         }
                         .onDelete { indexSet in

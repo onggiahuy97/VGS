@@ -14,4 +14,8 @@ struct Team: Identifiable {
     var CBPositions: [CGPoint] = []
     var CMPositions: [CGPoint] = []
     var FWPositions: [CGPoint] = []
+    
+    var totalRank: Int {
+        return players.map(\.rank).reduce(0, +)
+    }
 }

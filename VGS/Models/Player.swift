@@ -12,7 +12,8 @@ struct Player: Identifiable, Codable {
     var id = UUID()
     var name: String
     var position: Position
-    var number: Int = 0
+    var number: Int = (0...50).randomElement()!
+    var rank: Int = 1
     
     var offset: CGPoint = .zero
     var isDragging: Bool = false

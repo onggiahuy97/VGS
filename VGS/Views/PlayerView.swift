@@ -13,18 +13,29 @@ struct PlayerView: View {
     @State private var showEdit = false
     
     var body: some View {
-        HStack {
+        HStack(alignment: .center) {
             Image(systemName: "\(player.number).circle.fill")
-                .imageScale(.large)
+                .font(.title)
+            
             Text(player.name)
                 .bold()
             
             Spacer()
                 .frame(maxWidth: .infinity)
                 
-            Text(player.position.rawValue)
+            VStack(alignment: .trailing) {
+                Text(player.position.rawValue)
+                
+                HStack(spacing: 3) {
+                    ForEach(1...3, id: \.self) { star in
+                        Image(systemName: player.rank >= star ? "circle.fill" : "circle")
+                            .font(.system(size: 6))
+                    }
+                }
+            }
         }
-        .contentShape(Circle())
+        .padding(.vertical, 3)
+        .contentShape(Rectangle())
         .onTapGesture {
             self.showEdit.toggle()
         }
@@ -38,14 +49,28 @@ struct StaticPlayerView: View {
     var player: Player
     
     var body: some View {
-        HStack {
+        HStack(alignment: .center) {
+            Image(systemName: "\(player.number).circle.fill")
+                .font(.title)
+            
             Text(player.name)
                 .bold()
+            
             Spacer()
-            Text(player.position.rawValue)
-                .italic()
+                .frame(maxWidth: .infinity)
+            
+            VStack(alignment: .trailing) {
+                Text(player.position.rawValue)
+
+                HStack(spacing: 3) {
+                    ForEach(1...3, id: \.self) { star in
+                        Image(systemName: player.rank >= star ? "circle.fill" : "circle")
+                            .font(.system(size: 6))
+                    }
+                }
+            }
         }
-        .buttonStyle(.plain)
+        .padding(.vertical, 3)
     }
 }
 
