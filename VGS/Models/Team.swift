@@ -18,4 +18,16 @@ struct Team: Identifiable {
     var totalRank: Int {
         return players.map(\.rank).reduce(0, +)
     }
+    
+    var sortedPlayersByPosition: [Player] {
+        let positions = Position.allCases.map { $0.rawValue }
+        let sortedPlayer = self.players.sorted { p1, p2 in
+            guard let index1 = positions.firstIndex(of: p1.position.rawValue),
+                  let index2 = positions.firstIndex(of: p2.position.rawValue) else {
+                return false
+            }
+            return index1 < index2
+        }
+        return sortedPlayer
+    }
 }

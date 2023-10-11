@@ -69,7 +69,19 @@ struct EditPlayerView: View {
                         Text("Position")
                     }
                     .pickerStyle(.segmented)
-                }     
+                    
+                    HStack {
+                        ForEach(Position.allCases) { position in
+                            HStack {
+                                Spacer()
+                                Image(systemName: "circle.fill")
+                                    .foregroundStyle(position.color)
+                                Spacer()
+                            }
+                        }
+                    }
+                }
+                .listRowSeparator(.hidden, edges: .all)
                 
             }
             .navigationTitle("Edit Player")
@@ -77,6 +89,8 @@ struct EditPlayerView: View {
                 Button("Save") {
                     if let index = viewModel.players.firstIndex(where: { $0.id == player.id }) {
                         viewModel.players[index] = self.player
+                    } else {
+                        viewModel.players.append(self.player)
                     }
                     dismiss()
                 }

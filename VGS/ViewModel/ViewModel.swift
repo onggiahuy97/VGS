@@ -11,14 +11,7 @@ import UIKit
 class ViewModel: ObservableObject {
     @Published var tabSelection: String? = PlayersList.tag
     @Published var players: [Player] = []
-    @Published var teams: [Team] = [] {
-        didSet {
-            if teams.count >= 2 {
-                team1 = teams[0]
-                team2 = teams[1]
-            }
-        }
-    }
+    @Published var teams: [Team] = [] 
     @Published var numberOfTeam = 2 {
         didSet {
             splitTeam()
@@ -33,6 +26,17 @@ class ViewModel: ObservableObject {
     init() {
 //        checkIfFirstTime()
         self.players = Self.samplePlayers
+    }
+    
+    func updatePlayersAndTeams() {
+
+        if teams.count >= 2 {
+            team1 = teams[0]
+            team2 = teams[1]
+            
+            lineupPlayers()
+        }
+        
     }
     
     func swapPlayers(fromTeam: inout Team, fromPlayer: Player, toTeam: inout Team, toPlayer: Player) {
@@ -54,6 +58,14 @@ class ViewModel: ObservableObject {
         
         toTeam.players[toTeamPlayerIndex] = tempPlayer
         toTeam.players[toTeamPlayerIndex].offset = toTeamPlayerOffset
+        
+        if let indexToTeam = teams.firstIndex(where: { $0.id == toTeam.id }) {
+            teams[indexToTeam] = toTeam
+        }
+        
+        if let indexFromTeam = teams.firstIndex(where: { $0.id == fromTeam.id }) {
+            teams[indexFromTeam] = fromTeam
+        }
     }
     
     func checkIfFirstTime() {

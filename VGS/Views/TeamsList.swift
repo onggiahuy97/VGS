@@ -17,16 +17,7 @@ struct TeamsList: View {
             List {
                 ForEach(viewModel.teams) { team in
                     Section("\(team.name) - \(team.players.count) players - \(team.totalRank) ranks") {
-                        let positions = Position.allCases.map { $0.rawValue }
-                        let sortedPlayer = team.players.sorted { p1, p2 in
-                            guard let index1 = positions.firstIndex(of: p1.position.rawValue),
-                                  let index2 = positions.firstIndex(of: p2.position.rawValue) else {
-                                return false
-                            }
-                            return index1 < index2
-                        }
-                        
-                        ForEach(sortedPlayer) { player in
+                        ForEach(team.sortedPlayersByPosition) { player in
                             Menu {
                                 ForEach(viewModel.teams) { t in
                                     Button {
@@ -34,6 +25,7 @@ struct TeamsList: View {
                                         let currentTeamIndex = viewModel.teams.firstIndex(where: { $0.id == team.id })
                                         viewModel.teams[newTeamIndex!].players.append(player)
                                         viewModel.teams[currentTeamIndex!].players.removeAll(where: { $0.id == player.id })
+                                        viewModel.updatePlayersAndTeams()
                                     } label: {
                                         let currentPlayerTeam = t.players.contains(where: { $0.id == player.id })
                                         Label(t.name, systemImage: currentPlayerTeam ? "checkmark" : "")

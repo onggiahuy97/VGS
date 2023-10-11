@@ -63,33 +63,55 @@ struct TeamLineUpView: View {
                         let isFromTeam1 = viewModel.team1.players.contains(where: { $0.id == currentPlayer.id })
                         let toTeam = viewModel
                             .team1.players.contains(where: { $0.id == currentPlayer.id }) ? viewModel.team2 : viewModel.team1
-                        List(toTeam.players) { toPlayer in
-                            Button {
-                                if isFromTeam1 {
-                                    viewModel.swapPlayers(
-                                        fromTeam: &viewModel.team1,
-                                        fromPlayer: currentPlayer,
-                                        toTeam: &viewModel.team2,
-                                        toPlayer: toPlayer
-                                    )
-                                } else {
-                                    viewModel.swapPlayers(
-                                        fromTeam: &viewModel.team2,
-                                        fromPlayer: currentPlayer,
-                                        toTeam: &viewModel.team1,
-                                        toPlayer: toPlayer
-                                    )
-                                }
-                               
-                                showChangePlayer = false
-                            } label: {
-                                HStack {
-                                    Text(toPlayer.name)
-                                    Spacer()
-                                    Text(toPlayer.position.rawValue)
+                        List {
+                            Section(toTeam.name) {
+                                
+                                ForEach(toTeam.sortedPlayersByPosition) { toPlayer in
+                                    Button {
+                                        if isFromTeam1 {
+                                            viewModel.swapPlayers(
+                                                fromTeam: &viewModel.team1,
+                                                fromPlayer: currentPlayer,
+                                                toTeam: &viewModel.team2,
+                                                toPlayer: toPlayer
+                                            )
+                                        } else {
+                                            viewModel.swapPlayers(
+                                                fromTeam: &viewModel.team2,
+                                                fromPlayer: currentPlayer,
+                                                toTeam: &viewModel.team1,
+                                                toPlayer: toPlayer
+                                            )
+                                        }
+                                        
+                                        showChangePlayer = false
+                                    } label: {
+                                        StaticPlayerView(player: toPlayer)
+                                    }
+                                    .buttonStyle(.plain)
                                 }
                             }
-                            .buttonStyle(.plain)
+                            Section {
+                                Button("Move \(currentPlayer.name) to \(toTeam.name)") {
+                                    guard let indexFromTeam = viewModel.teams.firstIndex(where: { t in
+                                        return t.players.contains(where: { $0.id == currentPlayer.id })
+                                    }) else {
+                                        return
+                                    }
+                                    
+                                    guard let indexToTeam = viewModel.teams.firstIndex(where: { $0.id == toTeam.id }) else {
+                                        return
+                                    }
+                                    
+                                    viewModel.teams[indexToTeam].players.append(currentPlayer)
+                                    viewModel.teams[indexFromTeam].players.removeAll(where: { $0.id == currentPlayer.id })
+                                    viewModel.updatePlayersAndTeams()
+                                    viewModel.lineupPlayers()
+                                    
+                                    showChangePlayer = false
+                                }
+                                .frame(maxWidth: .infinity, alignment: .center)
+                            }
                         }
                         .navigationTitle("Swap Player")
                         .toolbar {

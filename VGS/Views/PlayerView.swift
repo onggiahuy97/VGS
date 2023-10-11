@@ -16,15 +16,16 @@ struct PlayerView: View {
         HStack(alignment: .center) {
             Image(systemName: "\(player.number).circle.fill")
                 .font(.title)
+                .foregroundStyle(player.position.color)
             
             Text(player.name)
-                .bold()
-            
+                
             Spacer()
                 .frame(maxWidth: .infinity)
                 
             VStack(alignment: .trailing) {
                 Text(player.position.rawValue)
+                    .font(.subheadline)
                 
                 HStack(spacing: 3) {
                     ForEach(1...3, id: \.self) { star in
@@ -33,6 +34,8 @@ struct PlayerView: View {
                     }
                 }
             }
+            .foregroundStyle(.secondary)
+
         }
         .padding(.vertical, 3)
         .contentShape(Rectangle())
@@ -52,16 +55,17 @@ struct StaticPlayerView: View {
         HStack(alignment: .center) {
             Image(systemName: "\(player.number).circle.fill")
                 .font(.title)
+                .foregroundStyle(player.position.color)
             
             Text(player.name)
-                .bold()
             
             Spacer()
                 .frame(maxWidth: .infinity)
             
             VStack(alignment: .trailing) {
                 Text(player.position.rawValue)
-
+                    .font(.subheadline)
+                
                 HStack(spacing: 3) {
                     ForEach(1...3, id: \.self) { star in
                         Image(systemName: player.rank >= star ? "circle.fill" : "circle")
@@ -69,6 +73,7 @@ struct StaticPlayerView: View {
                     }
                 }
             }
+            .foregroundStyle(.secondary)
         }
         .padding(.vertical, 3)
     }
