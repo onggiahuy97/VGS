@@ -24,9 +24,68 @@ class ViewModel: ObservableObject {
     @Published var screenSize: CGSize = .init()
         
     init() {
-//        checkIfFirstTime()
-        self.players = Self.samplePlayers
+        decodeData()
     }
+    
+//    func printJSON() {
+//        do {
+//            struct PlayerJSON: Codable {
+//                var id: String
+//                var name: String
+//                var position: String
+//                var number: Int
+//                var rank: Int
+//            }
+//            
+//            let jsonPlayers = players.map { PlayerJSON(id: $0.id.uuidString, name: $0.name, position: $0.position.rawValue, number: $0.number, rank: $0.rank) }
+//            
+//            let encoder = JSONEncoder()
+//            encoder.outputFormatting = .prettyPrinted
+//            let jsonData = try encoder.encode(jsonPlayers)
+//            if let string = String(data: jsonData, encoding: .utf8) {
+//                print(string)
+//            }
+//            
+//        } catch {
+//            print(error)
+//        }
+//    }
+//    
+//    func getPlayersFromCloud() {
+//        guard let url = URL(string: "http://localhost:3000/players") else {
+//            return
+//        }
+//        
+//        var request = URLRequest(url: url)
+//        request.httpMethod = "GET"
+//        
+//        URLSession.shared.dataTask(with: request) { data, response, error in
+//            if let error = error {
+//                print("Error: \(error)")
+//                return
+//            }
+//            
+//            guard let httpResponse = response as? HTTPURLResponse else {
+//                print("Invalid response")
+//                return
+//            }
+//            
+//            if httpResponse.statusCode == 200 {
+//                if let data = data {
+//                    do {
+//                        // Assuming your response data is JSON, you can parse it here
+//                        let json = try JSONSerialization.jsonObject(with: data, options: [])
+//                        print(json)
+//                    } catch {
+//                        print("Error parsing JSON: \(error)")
+//                    }
+//                }
+//            } else {
+//                print("HTTP status code: \(httpResponse.statusCode)")
+//            }
+//        }.resume()
+//    }
+
     
     func updatePlayersAndTeams() {
 
@@ -95,45 +154,23 @@ class ViewModel: ObservableObject {
     func splitTeam() {
         
         teams = (0..<numberOfTeam).map { Team(name: "Team \($0 + 1)", players: []) }
-//        
-//        // For each position
-//        for position in Position.allCases {
-//            
-//            // Players with the same position
-//            var playersWithPosition = players.filter { $0.position == position }
-//            
-//            // Splitting players
-//            var currentTeamIndex = 0
-//            while !playersWithPosition.isEmpty {
-//                let randomIndex = Int.random(in: 0..<playersWithPosition.count)
-//                let randomPlayer = playersWithPosition.remove(at: randomIndex)
-//                teams[currentTeamIndex].players.append(randomPlayer)
-//                currentTeamIndex = currentTeamIndex == numberOfTeam - 1 ? 0 : currentTeamIndex + 1
-//            }
-//        }
-//        
-//        team1 = teams[0]
-//        team2 = teams[1]
         
         for position in Position.allCases {
             var playersOfPosition = players.filter { $0.position == position }
             playersOfPosition.sort(by: { $0.rank > $1.rank })
             
-            while !playersOfPosition.isEmpty {
-                for i in 0..<numberOfTeam {
-                    if !playersOfPosition.isEmpty {
-                        var team = teams[i]
-                        team.players.append(playersOfPosition.removeFirst())
-                        teams[i] = team
-                    }
-                }
-                
-                while !playersOfPosition.isEmpty {
-                    if let minRankSumIndex = teams.enumerated().min(by: { $0.element.totalRank < $1.element.totalRank })?.offset {
-                        var team = teams[minRankSumIndex]
-                        team.players.append(playersOfPosition.removeFirst())
-                        teams[minRankSumIndex] = team
-                    }
+            // Shuffle players by their rank
+            var shufflePlayers = [Player]()
+            
+            for rank in 1...3 {
+                let shufflePlayersOfPosition = playersOfPosition.filter { $0.rank == rank }.shuffled()
+                shufflePlayers.append(contentsOf: shufflePlayersOfPosition)
+            }
+            
+            while !shufflePlayers.isEmpty {
+                if let minRankSumTeam = teams.min(by: { $0.totalRank < $1.totalRank }),
+                   let minRankSumTeamIndex = teams.firstIndex(where: { $0.id == minRankSumTeam.id }) {
+                    teams[minRankSumTeamIndex].players.append(shufflePlayers.removeFirst())
                 }
             }
         }

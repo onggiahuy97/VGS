@@ -35,6 +35,7 @@ struct EditPlayerView: View {
                 
                 Section {
                     TextField("Name", text: $player.name)
+                        .textInputAutocapitalization(.words)
                 }
                 
                 Section {
@@ -86,13 +87,25 @@ struct EditPlayerView: View {
             }
             .navigationTitle("Edit Player")
             .toolbar {
-                Button("Save") {
-                    if let index = viewModel.players.firstIndex(where: { $0.id == player.id }) {
-                        viewModel.players[index] = self.player
-                    } else {
-                        viewModel.players.append(self.player)
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button("Save") {
+                        guard !self.player.name.isEmpty else {
+                            return
+                        }
+                        
+                        if let index = viewModel.players.firstIndex(where: { $0.id == player.id }) {
+                            viewModel.players[index] = self.player
+                        } else {
+                            viewModel.players.append(self.player)
+                        }
+                        dismiss()
                     }
-                    dismiss()
+                }
+                
+                ToolbarItem(placement: .topBarLeading) {
+                    Button("Cancel") {
+                        dismiss()
+                    }
                 }
             }
         }
