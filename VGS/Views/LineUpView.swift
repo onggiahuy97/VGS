@@ -52,7 +52,7 @@ struct LineUpView: View {
                 TeamLineUpView(team: $viewModel.team1, color: .blue)
                     .opacity(showBlue ? 1 : 0)
                 
-                TeamLineUpView(team: $viewModel.team2, color: .orange)
+                TeamLineUpView(team: $viewModel.team2, color: .red)
                     .opacity(showOrange ? 1 : 0)
                 
                 BallView()
@@ -91,7 +91,7 @@ struct LineUpView: View {
                         showOrange.toggle()
                     } label: {
                         Image(systemName: "circle.fill")
-                            .foregroundStyle(showOrange ? .orange : .orange.opacity(0.5))
+                            .foregroundStyle(showOrange ? .red : .red.opacity(0.5))
                     }
                 }
                 

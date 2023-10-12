@@ -12,14 +12,16 @@ enum Position: String, CaseIterable, Identifiable, Codable {
     var id: String { self.rawValue }
     case CB, CM, FW
     
+    static let opacity: CGFloat = 0.8
+    
     var color: Color {
         switch self {
         case .CB:
-            return .green
+            return .teal.opacity(Self.opacity)
         case .CM:
-            return .blue
+            return .brown.opacity(Self.opacity)
         case .FW:
-            return .red
+            return .pink.opacity(Self.opacity)
         }
     }
 }

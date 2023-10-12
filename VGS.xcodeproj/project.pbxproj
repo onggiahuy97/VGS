@@ -23,6 +23,7 @@
 		59816BB12AC6A16100BAECD4 /* Position.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59816BB02AC6A16100BAECD4 /* Position.swift */; };
 		59816BB32AC6A19100BAECD4 /* PlayersList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59816BB22AC6A19100BAECD4 /* PlayersList.swift */; };
 		59816BB52AC6A1F800BAECD4 /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59816BB42AC6A1F800BAECD4 /* ViewModel.swift */; };
+		598A668A2AD875D400243589 /* CoreDataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 598A66892AD875D400243589 /* CoreDataController.swift */; };
 		59F2C3B92ACFDDFD006DCE52 /* TeamPosition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59F2C3B82ACFDDFD006DCE52 /* TeamPosition.swift */; };
 /* End PBXBuildFile section */
 
@@ -44,6 +45,7 @@
 		59816BB02AC6A16100BAECD4 /* Position.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Position.swift; sourceTree = "<group>"; };
 		59816BB22AC6A19100BAECD4 /* PlayersList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayersList.swift; sourceTree = "<group>"; };
 		59816BB42AC6A1F800BAECD4 /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
+		598A66892AD875D400243589 /* CoreDataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataController.swift; sourceTree = "<group>"; };
 		59F2C3B82ACFDDFD006DCE52 /* TeamPosition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamPosition.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -77,6 +79,7 @@
 		59816B9F2AC69F9600BAECD4 /* VGS */ = {
 			isa = PBXGroup;
 			children = (
+				598A66882AD875C900243589 /* Controllers */,
 				59F2C3BC2ACFE9E7006DCE52 /* ViewModel */,
 				59F2C3BB2ACFE9C4006DCE52 /* Views */,
 				59F2C3BA2ACFE9B6006DCE52 /* Models */,
@@ -94,6 +97,14 @@
 				59816BA72AC69F9D00BAECD4 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		598A66882AD875C900243589 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				598A66892AD875D400243589 /* CoreDataController.swift */,
+			);
+			path = Controllers;
 			sourceTree = "<group>";
 		};
 		59F2C3BA2ACFE9B6006DCE52 /* Models */ = {
@@ -210,6 +221,7 @@
 				597A68BC2AD6740900415DEB /* EditPlayerView.swift in Sources */,
 				59744F132AC7422F009A697A /* Team.swift in Sources */,
 				59816BAF2AC6A13D00BAECD4 /* Player.swift in Sources */,
+				598A668A2AD875D400243589 /* CoreDataController.swift in Sources */,
 				59816BB52AC6A1F800BAECD4 /* ViewModel.swift in Sources */,
 				59593CB82ACF7EB9006BB29C /* TeamLineUpView.swift in Sources */,
 				59816BA12AC69F9600BAECD4 /* VGSApp.swift in Sources */,

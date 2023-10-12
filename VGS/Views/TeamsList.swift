@@ -15,6 +15,18 @@ struct TeamsList: View {
     var body: some View {
         NavigationStack {
             List {
+                HStack {
+                    ForEach(Position.allCases) { position in
+                        Spacer()
+                        HStack {
+                            Image(systemName: "circle.fill")
+                                .foregroundStyle(position.color)
+                            Text(position.rawValue)
+                        }
+                        Spacer()
+                    }
+                }
+                
                 ForEach(viewModel.teams) { team in
                     Section("\(team.name) - \(team.players.count) players - \(team.totalRank) ranks") {
                         ForEach(team.sortedPlayersByPosition) { player in

@@ -15,6 +15,18 @@ struct PlayersList: View {
     var body: some View {
         NavigationStack {
             List {
+                HStack {
+                    ForEach(Position.allCases) { position in
+                        Spacer()
+                        HStack {
+                            Image(systemName: "circle.fill")
+                                .foregroundStyle(position.color)
+                            Text(position.rawValue)
+                        }
+                        Spacer()
+                    }
+                }
+                
                 ForEach(Position.allCases) { position in
                     let players = viewModel.players.filter { $0.position == position }
                     Section("\(position.rawValue) (\(players.count))") {
